@@ -77,11 +77,19 @@ class FileStorage:
                 return val
         else:
             return None
-        
+
     def count(self, cls=None):
+        counts = 0
         """A method to return the total number of objects, 
         or the specific number of class objects"""
-        counts = 0
-        for key, value in self.__objects.items():
-            counts += 1
-        return counts
+        if cls == None:
+            for key, value in self.__objects.items():
+                counts += 1
+            return counts
+        elif cls in classes.keys():
+            for key, value in self.__objects.items():
+                if key.startswith(cls) :
+                    counts += 1
+            return counts
+        else:
+            return "class doesn't exist"

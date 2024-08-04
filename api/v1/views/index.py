@@ -14,6 +14,6 @@ def count():
     names = ["amenities", "cities", "places", "reviews", "states", "users"]
     
     obj_num = {}
-    for i in classes:
-    obj_num[names[i]] = storage.count(classes[i])
-    return jsonifyobj_num)
+    for i in rang(len(classes)):
+	obj_num[names[i]] = storage.count(classes[i])
+    return jsonify(obj_num)

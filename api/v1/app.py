@@ -6,6 +6,7 @@ from models import storage
 from api.v1.views import app_views
 from flask_cors import CORS
 from flask import make_response, jsonify
+from os import environ
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
@@ -30,4 +31,4 @@ if __name__ == "__main__":
 def error(message, status_code):
     """a handler for 404 errors that returns a JSON-formatted 404 status code response
     """
-    return make_response(jsonify("error": "Not found"), 404)
+    return make_response(jsonify(error="Not found"), 404)

@@ -1,6 +1,10 @@
 #!/usr/bin/python3
 """A view for State objects that handles all default RESTFul API actions
 """
+from api.v1.views import app_views
+from flask import jsonify, request, make_response, abort
+from models.states import State
+from models import storage
 
 @app_views.route("/states", methods='Get')
 def list_states():
@@ -16,7 +20,7 @@ def get_state():
 	abort(404)
     return jsonify(state.to_dict())
 
-@app_views.route("/api/v1/states/<state_id>", methods='Delete')
+@app_views.route("/states/<state_id>", methods='Delete')
 def del_state():
     """Deletes state"""
     state = storage.get(State, state_id)
@@ -26,14 +30,25 @@ def del_state():
     storage.save()
     return make_response(jsonify({}), 200)	
 
-@app_views.route("/api/v1/states", methods='Post')
-def update_state():
+@app_views.route("/states", methods='Post')
+def create_state():
     """Creates a new state"""
     state = request.get_json('State')
     if not request.get_json():
 	abort(404, description="Not a json")
     if 'name' is not in request.json():
 	abort(404, description="Missing name")
+    new = State(**data)
+    new.save()
+    return make_response(jsonify(new.to_dict()), 201)
 
-@app_views.route("
-    return make_response(jsonify(state.new(", 20)
+@app_views.route("/states/<state_id>", methods='Put')
+def updates_state():
+    """Updates a state"""
+    state = request.get_json('State')
+    if not request.get_json():
+        abort(404, description="Not a json")
+    if 'name' is not in request.json():
+        abort(404, description="Missing name")
+    new = 
+    return make_response(jsonify(new.to_dict()), 201)

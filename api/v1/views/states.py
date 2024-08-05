@@ -11,5 +11,29 @@ def list_states():
 @app_views.route("/states/<state_id>", methods='Get')
 def get_state():
     """Retrieves a state object"""
-    if state_id is NULL:
-	
+    state = storage.get(State, state_id)
+    if not state:
+	abort(404)
+    return jsonify(state.to_dict())
+
+@app_views.route("/api/v1/states/<state_id>", methods='Delete')
+def del_state():
+    """Deletes state"""
+    state = storage.get(State, state_id)
+    if not state:
+	abort(404)
+    storage.delete(state)
+    storage.save()
+    return make_response(jsonify({}), 200)	
+
+@app_views.route("/api/v1/states", methods='Post')
+def update_state():
+    """Creates a new state"""
+    state = request.get_json('State')
+    if not request.get_json():
+	abort(404, description="Not a json")
+    if 'name' is not in request.json():
+	abort(404, description="Missing name")
+
+@app_views.route("
+    return make_response(jsonify(state.new(", 20)

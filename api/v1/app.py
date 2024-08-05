@@ -1,25 +1,19 @@
 #!/usr/bin/python3
-"""Flask application"""
 
-from flask import Flask, render_template
+from flask import Flask
 from models import storage
-from app_views import api.v1.views
+from api.v1.views import app_views
+import os
+
 
 app = Flask(__name__)
 app.register_blueprint(app_views)
 
-@app.teardown_appcontext
-def close_err(error):
-    """Closes storage"""
+@app.teardown_appcontext()
+def close():
     storage.close()
 
-if __name_ == "__main__":
-    """Main function"""
-
-    host = environ.get('HBNB_API_HOST')
-    port = environ.get('HBNB_API_PORT')
-    if not host:
-	host = '0.0.0.0.0'
-    if not port:
-	port = '5000'
-    app.run(host=host, port=port, threaded=True)
+if __name__ == "__main__":
+    host = os.environ.get('HBNB_API_HOST', '0.0.0.0')
+    port = os.environ.get('HBNB_API_PORT', '5000')
+    app.run(host = host, port = port, threaded=True)

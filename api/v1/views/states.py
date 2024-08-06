@@ -37,7 +37,7 @@ def get_state():
                 if name_value == i.to_dict()['name']:
                     return jsonify(i.to_dict()), 201
         except ValueError:
-            return 'Nott a JSON', 400
+            abort(400, "Not a JSON")
 
 
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],

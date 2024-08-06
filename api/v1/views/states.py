@@ -20,7 +20,8 @@ def get_state():
         POST: Creates a new State object.
 
     Returns:
-        A JSON response with the list of State objects or the newly created State object.
+        A JSON response with the list of State objects
+        or the newly created State object.
     """
     if request.method == 'GET':
         objects = storage.all(State)

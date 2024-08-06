@@ -30,14 +30,14 @@ def get_state():
         try:
             content = request.get_json(force=True)
             if 'name' not in content.keys():
-                return jsonify({"Missing name"}), 400
+                return 'Missing name', 400
             name_value = content['name']
             class_values = storage.all(State).values()
             for i in class_values:
                 if name_value == i.to_dict()['name']:
                     return jsonify(i.to_dict()), 201
         except ValueError:
-            return jsonify({"error": "Not a JSON"}), 400
+            return 'Not a JSON', 400
 
 
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
@@ -66,22 +66,24 @@ def get_state_id(state_id):
         if state:
             return jsonify(state.to_dict())
     elif request.method == 'DELETE':
-        try:
+        if state:
             del new[key]
             storage.save()
-            return jsonify({}), 200
-        except Exception:
+            return {}, 200
+        else:
             abort(404)
     elif request.method == 'PUT':
         try:
             content = request.get_json()
             if not content:
-                return jsonify({"error": "Not found"}), 400
+                return 'Not a JSON', 400
             obj = storage.get(State, state_id)
+            if obj is None:
+                abort(404)
             for key, value in content.items():
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(obj, key, value)
             storage.save()
             return jsonify(obj.to_dict()), 200
         except ValueError:
-            return jsonify({"error": "Not found"}), 400
+            return 'Not a JSON', 400

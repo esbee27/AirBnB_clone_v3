@@ -30,7 +30,7 @@ def get_state():
         try:
             content = request.get_json(force=True)
             if 'name' not in content.keys():
-                jsonify({"error: Missing name"}), 400
+                jsonify({"Missing name"}), 400
             name_value = content['name']
             class_values = storage.all(State).values()
             for i in class_values:

@@ -6,7 +6,10 @@ This module defines routes for the status and stats endpoints.
 from flask import jsonify
 from models import storage
 from api.v1.views import app_views
-from models.engine import file_storage
+
+classes = {"users": "User", "places": "Place", "states": "State",
+           "cities": "City", "amenities": "Amenity",
+           "reviews": "Review"}
 
 
 @app_views.route('/status', methods=['GET'], strict_slashes=False)
@@ -30,8 +33,8 @@ def stats():
         JSON response with the count of each object.
     """
     dic = {}
-    for cls in file_storage.classes.keys():
-        dic[cls] = storage.count(cls)
+    for cls in classes.keys():
+        dic[cls] = storage.count(classes[cls])
     return jsonify(dic)
 
 

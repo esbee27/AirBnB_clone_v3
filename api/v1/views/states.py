@@ -30,14 +30,14 @@ def get_state():
         try:
             content = request.get_json(force=True)
             if 'name' not in content.keys():
-                jsonify({"Missing name"}), 400
+                return 'Missing name', 400
             name_value = content['name']
             class_values = storage.all(State).values()
             for i in class_values:
                 if name_value == i.to_dict()['name']:
                     return jsonify(i.to_dict()), 201
         except ValueError:
-            jsonify({"error: Not a JSON"}), 400
+            return 'Not a JSON', 400
 
 
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
@@ -76,7 +76,7 @@ def get_state_id(state_id):
         try:
             content = request.get_json()
             if not content:
-                jsonify({"error: Not a JSON"}), 400
+                return 'Not a JSON', 400
             obj = storage.get(State, state_id)
             if obj is None:
                 abort(404)
@@ -86,4 +86,4 @@ def get_state_id(state_id):
             storage.save()
             return jsonify(obj.to_dict()), 200
         except ValueError:
-            return jsonify({"error: Not found"}), 400
+            return 'Not a JSON', 400

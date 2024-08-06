@@ -69,21 +69,19 @@ def get_state_id(state_id):
         if state:
             del new[key]
             storage.save()
-            return {}, 200
+            return jsonify({}), 200
         else:
             abort(404)
     elif request.method == 'PUT':
         try:
             content = request.get_json()
             if not content:
-                return 'Not a JSON', 400
+                jsonify({'error': 'Not found'}), 400
             obj = storage.get(State, state_id)
-            if obj is None:
-                abort(404)
             for key, value in content.items():
                 if key not in ['id', 'created_at', 'updated_at']:
                     setattr(obj, key, value)
             storage.save()
             return jsonify(obj.to_dict()), 200
         except ValueError:
-            return 'Not a JSON', 400
+            return jsonify({'error': 'Not found'}), 400

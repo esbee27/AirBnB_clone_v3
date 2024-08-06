@@ -60,11 +60,11 @@ def get_state_id(state_id):
     new = storage.all(State)
     key = 'State.' + state_id
     state = new.get(key)
+    if state is None:
+        abort(404)
     if request.method == 'GET':
         if state:
             return jsonify(state.to_dict())
-        else:
-            abort(404)
     elif request.method == 'DELETE':
         if state:
             del new[key]

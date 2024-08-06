@@ -32,6 +32,6 @@ def count():
         JSON response with the count of each object.
     """
     dic = {}
-    for cls in classes.keys():
+    for cls in classes:
         dic[cls] = storage.count(classes[cls])
     return jsonify(dic)

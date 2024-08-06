@@ -12,7 +12,7 @@ classes = {"users": "User", "places": "Place", "states": "State",
            "reviews": "Review"}
 
 
-@app_views.route('/status', methods=['GET'], strict_slashes=False)
+@app_views.route('/status', methods=['GET'])
 def status():
     """
     Returns the status of the API.
@@ -20,12 +20,11 @@ def status():
     Returns:
         JSON response with a status message.
     """
-    msg = {"status": "OK"}
-    return jsonify(msg)
+    return jsonify({'status': 'OK'})
 
 
-@app_views.route('/api/v1/stats', methods=['GET'], strict_slashes=False)
-def stats():
+@app_views.route('/api/v1/stats', methods=['GET'])
+def count():
     """
     Retrieves the count of each object by type.
 
@@ -36,7 +35,3 @@ def stats():
     for cls in classes.keys():
         dic[cls] = storage.count(classes[cls])
     return jsonify(dic)
-
-
-if __name__ == "__main__":
-    pass

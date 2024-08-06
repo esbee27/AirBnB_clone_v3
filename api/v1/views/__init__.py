@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
 This module initializes the Blueprint for the API views.
 """

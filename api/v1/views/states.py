@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-
 """
 This module defines routes for handling State objects via a RESTful API.
 """

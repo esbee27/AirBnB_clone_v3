@@ -27,17 +27,13 @@ def get_state():
         obj_val = [value.to_dict() for value in objects.values()]
         return jsonify(obj_val)
     elif request.method == 'POST':
-        try:
-            content = request.get_json(force=True)
-            if 'name' not in content.keys():
-                return 'Missing name', 400
-            name_value = content['name']
-            class_values = storage.all(State).values()
-            for i in class_values:
-                if name_value == i.to_dict()['name']:
-                    return jsonify(i.to_dict()), 201
-        except ValueError:
-            return 'Not a JSON', 400
+            if not request.get_json():
+                abort(400, "Not a JSON")
+            if "name" not in request.get_json():
+                abort(400, "Missing name")
+            state = State(**request.get_json())
+            state.save()
+            return jsonify(state.to_dict()), 201
 
 
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],

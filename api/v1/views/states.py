@@ -1,14 +1,27 @@
 #!/usr/bin/python3
 
+"""
+This module defines routes for handling State objects via a RESTful API.
+"""
+
 from models.state import State
 from models import storage
 from api.v1.views import app_views
 from flask import jsonify, abort, request
-import json
 
 
 @app_views.route('/states', methods=['GET', 'POST'], strict_slashes=False)
 def get_state():
+    """
+    Retrieves the list of all State objects or creates a new State.
+
+    Methods:
+        GET: Returns the list of all State objects.
+        POST: Creates a new State object.
+
+    Returns:
+        A JSON response with the list of State objects or the newly created State object.
+    """
     if request.method == 'GET':
         objects = storage.all(State)
         obj_val = [value.to_dict() for value in objects.values()]
@@ -16,7 +29,6 @@ def get_state():
     elif request.method == 'POST':
         try:
             content = request.get_json(force=True)
-            # data = json.loads(content)
             if 'name' not in content.keys():
                 return 'Missing name', 400
             name_value = content['name']
@@ -31,6 +43,20 @@ def get_state():
 @app_views.route('/states/<state_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def get_state_id(state_id):
+    """
+    Retrieves, deletes, or updates a State object by its ID.
+
+    Methods:
+        GET: Retrieves a State object by ID.
+        DELETE: Deletes a State object by ID.
+        PUT: Updates a State object by ID.
+
+    Args:
+        state_id (str): The ID of the State object.
+
+    Returns:
+        A JSON response with the State object or an appropriate status code.
+    """
     new = storage.all(State)
     key = 'State.' + state_id
     state = new.get(key)
@@ -49,6 +75,8 @@ def get_state_id(state_id):
     elif request.method == 'PUT':
         try:
             content = request.get_json()
+            if not content:
+                return 'Not a JSON', 400
             obj = storage.get(State, state_id)
             if obj is None:
                 abort(404)

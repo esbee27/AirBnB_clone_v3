@@ -1,10 +1,13 @@
 #!/usr/bin/python3
 
-from flask import Flask
+"""
+This module initializes and configures the Flask application.
+"""
+
+from flask import Flask, jsonify
 from models import storage
 from api.v1.views import app_views
 import os
-from flask import jsonify, Blueprint
 from flask_cors import CORS
 
 
@@ -14,11 +17,26 @@ app.register_blueprint(app_views, url_prefix='/api/v1')
 
 @app.teardown_appcontext
 def close(code):
+    """
+    Closes the storage on teardown of the Flask app context.
+
+    Args:
+        code: The status code.
+    """
     storage.close()
 
 
 @app.errorhandler(404)
 def page_not_found(error):
+    """
+    Handles 404 errors by returning a JSON-formatted error message.
+
+    Args:
+        error: The error object.
+
+    Returns:
+        A JSON response with the error message and a 404 status code.
+    """
     error_msg = {"error": "Not found"}
     return jsonify(error_msg), 404
 

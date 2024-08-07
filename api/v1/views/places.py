@@ -7,7 +7,9 @@ from flask import abort, jsonify, request
 from models import storage
 from models.engine.file_storage import classes
 
-@app_views.route('cities/<city_id>/places', methods=['GET', 'POST'], strict_slashes=False)
+
+@app_views.route('cities/<city_id>/places', methods=['GET', 'POST'],
+                 strict_slashes=False)
 def places_per_city(city_id=None):
     """
         places route to handle http method for requested places by city
@@ -40,7 +42,9 @@ def places_per_city(city_id=None):
         new_object.save()
         return jsonify(new_object.to_json()), 201
 
-@app_views.route('cities/<place_id>', methods=['DELETE', 'PUT'], strict_slashes=False)
+
+@app_views.route('cities/<place_id>', methods=['DELETE', 'PUT'],
+                 strict_slashes=False)
 def places_with_id(place_id=None):
     """
         places route to handle http methods for given place

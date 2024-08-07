@@ -44,7 +44,7 @@ def delete_city(city_id):
 def create_obj_city(state_id):
     """ create new instance """
     state = storage.get(State, state_id)
-    if state is None:
+    if not state:
         abort(404, description="State not found")
     data = request.get_json()
     if not isinstance(data, dict):

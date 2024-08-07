@@ -76,8 +76,8 @@ def handle_user(user_id):
             content = request.get_json()
         except ValueError:
             return jsonify({'error': 'Not a JSON'}), 400
-        if ('User.' + user_id) not in storage.all():
-            abort(404)
+        if not isinstance(content, dict):
+            return jsonify({'error': 'Not a JSON'}), 400
         for key, value in content.items():
             if key not in ['id', 'created_at', 'updated_at']:
                 setattr(user, key, value)

@@ -45,13 +45,14 @@ def create_city(state_id):
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    if not request.get_json:
+    if not request.get_json():
         abort(400, description="Not a JSON")
     data = request.get_json()
     if 'name' not in data:
         abort(400, description="Missing name")
     city = City(**data)
     city.state_id = state_id
+    storage.new(city)
     storage.save()
     return make_response(jsonify(city.to_dict()), 201)
 

@@ -65,48 +65,6 @@ def insert_place(city_id):
     return jsonify(new_place.to_dict()), 201
 
 
-@app_views.route("/places_search", methods=["POST"],
-                 strict_slashes=False)
-def places_search():
-    """Retrieves all Place objects depending of the body of the request"""
-    body = request.get_json()
-    if type(body) is not dict:
-        abort(400, description="Not a JSON")
-    id_states = body.get("states", [])
-    id_cities = body.get("cities", [])
-    id_amenities = body.get("amenities", [])
-    places = []
-    if id_states == id_cities == []:
-        places = storage.all(Place).values()
-    else:
-        states = [
-            storage.get(State, _id) for _id in id_states
-            if storage.get(State, _id)
-        ]
-        cities = [city for state in states for city in state.cities]
-        cities += [
-            storage.get(City, _id) for _id in id_cities
-            if storage.get(City, _id)
-        ]
-        cities = list(set(cities))
-        places = [place for city in cities for place in city.places]
-
-    amenities = [
-        storage.get(Amenity, _id) for _id in id_amenities
-        if storage.get(Amenity, _id)
-    ]
-
-    res = []
-    for place in places:
-        res.append(place.to_dict())
-        for amenity in amenities:
-            if amenity not in place.amenities:
-                res.pop()
-                break
-
-    return jsonify(res)
-
-
 @app_views.route("/places/<place_id>", methods=["PUT"],
                  strict_slashes=False)
 def update_place(place_id):

@@ -12,6 +12,7 @@ from flask_cors import CORS
 
 app = Flask(__name__)
 app.register_blueprint(app_views, url_prefix='/api/v1')
+cors = CORS(app, send_wildcard=True)
 
 
 @app.teardown_appcontext

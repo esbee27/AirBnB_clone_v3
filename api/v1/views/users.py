@@ -30,6 +30,8 @@ def handle_users():
             content = request.get_json()
         except ValueError:
             return jsonify({'error': 'Not a JSON'}), 400
+        if not isinstance(content, dict):
+            return jsonify({'error': 'Not a JSON'}), 400
         if 'email' not in content:
             return jsonify({'error': 'Missing email'}), 400
         if 'password' not in content:

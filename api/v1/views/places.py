@@ -15,7 +15,7 @@ from models.amenity import Amenity
 def place_by_city(city_id):
     """View function that return place objects by city"""
     city = storage.get(City, city_id)
-    if city is None:
+    if not city:
         abort(404)
     return jsonify([place.to_dict() for place in city.places])
 
@@ -25,7 +25,7 @@ def place_by_city(city_id):
 def show_place(place_id):
     """Endpoint that return a Place object"""
     place = storage.get(Place, place_id)
-    if place is None:
+    if not place:
         abort(404)
     return jsonify(place.to_dict())
 

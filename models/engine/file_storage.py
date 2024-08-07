@@ -27,10 +27,12 @@ class FileStorage:
         Returns the dictionary __objects.
 
         Args:
-            cls (class, optional): The class to filter objects by. If None, returns all objects.
+            cls (class, optional): The class to filter objects by. If None,
+            returns all objects.
 
         Returns:
-            dict: A dictionary of all stored objects, optionally filtered by class.
+            dict: A dictionary of all stored objects, optionally
+            filtered by class.
         """
         if cls is not None:
             new_dict = {}
@@ -74,7 +76,8 @@ class FileStorage:
         Delete obj from __objects if it’s inside.
 
         Args:
-            obj (BaseModel, optional): The object to delete. If None, no action is taken.
+            obj (BaseModel, optional): The object to delete.
+            If None, no action is taken.
         """
         if obj is not None:
             key = obj.__class__.__name__ + '.' + obj.id
@@ -94,7 +97,8 @@ class FileStorage:
             id (str): The ID of the object.
 
         Returns:
-            BaseModel: The object based on the class and its ID, or None if not found.
+            BaseModel: The object based on the class and its ID,
+            or None if not found.
         """
         if cls and id:
             key = "{}.{}".format(cls.__name__, id)
@@ -106,7 +110,8 @@ class FileStorage:
         Count the number of objects in storage.
 
         Args:
-            cls (class, optional): The class to count. If None, counts all objects.
+            cls (class, optional): The class to count. If None,
+            counts all objects.
 
         Returns:
             int: The number of objects in storage.

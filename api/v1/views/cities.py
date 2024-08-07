@@ -10,12 +10,14 @@ from api.v1.views import app_views
 @app_views.route('/states/<state_id>/cities', methods=['GET'])
 def get_cities(state_id):
     """Retrieve the list of all City objects of a State"""
+    list_cities = []
     state = storage.get(State, state_id)
     if not state:
         abort(404)
-    cities = [city.to_dict() for city in state]
-    return jsonify(cities)
+    for city in state.cities:
+        list_cities.append(city.to_dict())
 
+    return jsonify(list_cities)
 
 @app_views.route('/cities/<city_id>', methods=['GET'])
 def get_city(city_id):

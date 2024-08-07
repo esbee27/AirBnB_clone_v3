@@ -20,7 +20,7 @@ def get_cities(state_id):
 @app_views.route('/cities/<city_id>', methods=['GET'])
 def get_city(city_id):
     """Retrieve a City object"""
-    city = storage.get(City, city_id)
+    city = storage.get(State, city_id)
     if not city:
         abort(404)
     return jsonify(city.to_dict())

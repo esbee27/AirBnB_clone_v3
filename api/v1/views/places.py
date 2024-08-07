@@ -43,7 +43,7 @@ def places_per_city(city_id=None):
         return jsonify(new_object.to_json()), 201
 
 
-@app_views.route('places/<place_id>', methods=['DELETE', 'PUT'],
+@app_views.route('places/<place_id>', methods=['GET', 'DELETE', 'PUT'],
                  strict_slashes=False)
 def places_with_id(place_id=None):
     """

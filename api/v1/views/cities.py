@@ -45,17 +45,18 @@ def create_obj_city(state_id):
     """ create new instance """
     state = storage.get(State, state_id)
     if state is None:
-        abort(404)
-    if not request.get_json():
-        return make_response(jsonify({"error": "Not a JSON"}), 400)
-    if 'name' not in request.get_json():
-        return make_response(jsonify({"error": "Missing name"}), 400)
+        abort(404, description="State not found")
+    data = request.get_json()
+    if not isinstance(data, dict):
+        abort(400, description="Not a JSON")
 
-    js = request.get_json()
-    obj = City(**js)
-    obj.state_id = state.id
-    obj.save()
-    return jsonify(obj.to_dict()), 201
+    if 'name' not in data:
+        abort(400, description="Missing name")
+    city = City(**data)
+    city.state_id = state_id
+    storage.new(city)
+    storage.save()
+    return make_response(jsonify(city.to_dict()), 201)
 
 
 @app_views.route('/cities/<city_id>', methods=['PUT'])
